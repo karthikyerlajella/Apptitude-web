@@ -18,7 +18,7 @@ const Dashboard = () => {
         <p style={{ color: 'var(--text-light)' }}>Select a topic to start practicing</p>
       </div>
 
-      {/* --- NEW DAILY CHALLENGE CARD --- */}
+      {/* --- THIS IS THE DAILY CHALLENGE CARD --- */}
       <div style={{ marginBottom: '40px', textAlign: 'center' }}>
         <Link to="/daily" style={{ textDecoration: 'none' }}>
           <div style={{

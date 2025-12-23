@@ -12,8 +12,9 @@ import Profile from './pages/Profile';
 import Leaderboard from './pages/Leaderboard';
 import Study from './pages/Study'; 
 import Admin from './pages/Admin';
+import DailyChallenge from './pages/DailyChallenge'; // <--- NEW IMPORT
 
-// Import Games Component
+// Import Components
 import Games from './components/Games'; 
 
 import './App.css';
@@ -21,12 +22,11 @@ import './App.css';
 function App() {
   const [user, setUser] = useState(null);
 
-  // 1. Dark Mode State (Initialize from localStorage)
+  // Initialize Dark Mode
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem('theme') === 'dark';
   });
 
-  // 2. Auth Listener
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
       setUser(currentUser);
@@ -34,7 +34,7 @@ function App() {
     return () => unsubscribe();
   }, []);
 
-  // 3. Dark Mode Side Effect (Apply class to body)
+  // Apply Dark Mode Class
   useEffect(() => {
     if (darkMode) {
       document.body.classList.add('dark-mode');
@@ -52,13 +52,13 @@ function App() {
   return (
     <Router>
       <div className="app-container">
-        {/* WRAPPER FOR NAVBAR */}
+        {/* NAVBAR */}
         <nav className="navbar">
           <div className="nav-content">
             <div className="logo">IndiaBix Portal</div>
             
             <div className="nav-links">
-              {/* THEME TOGGLE BUTTON */}
+              {/* Theme Toggle */}
               <button 
                 className="theme-toggle" 
                 onClick={() => setDarkMode(!darkMode)}
@@ -72,23 +72,12 @@ function App() {
               {user ? (
                 <>
                   <Link to="/leaderboard" className="nav-link">Leaderboard</Link>
-                  
-                  {/* Link to Games Page */}
-                  <Link to="/games" className="nav-link" style={{ color: '#10b981' }}>
-                    🎮 Games
-                  </Link>
-
-                  {/* ADMIN LINK (Visible to logged in users) */}
-                  <Link to="/admin" className="nav-link" style={{color: '#f59e0b'}}>
-                    Admin
-                  </Link>
-
+                  <Link to="/games" className="nav-link" style={{ color: '#10b981' }}>🎮 Games</Link>
+                  <Link to="/admin" className="nav-link" style={{color: '#f59e0b'}}>Admin</Link>
                   <Link to="/profile" className="nav-link">
                     Hi, {user.displayName ? user.displayName.split(' ')[0] : 'User'}
                   </Link>
-                  <button onClick={handleLogout} className="nav-btn" style={{background: '#ef4444'}}>
-                    Logout
-                  </button>
+                  <button onClick={handleLogout} className="nav-btn" style={{background: '#ef4444'}}>Logout</button>
                 </>
               ) : (
                 <Link to="/login" className="nav-btn">Login</Link>
@@ -97,12 +86,10 @@ function App() {
           </div>
         </nav>
 
-        {/* WRAPPER FOR PAGE CONTENT */}
+        {/* CONTENT */}
         <main className="main-content">
           <Routes>
-            {/* If user is logged in, show Dashboard, otherwise show Welcome */}
             <Route path="/" element={user ? <Dashboard /> : <Welcome />} />
-            
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/quiz/:id" element={<Quiz />} />
@@ -110,10 +97,10 @@ function App() {
             <Route path="/leaderboard" element={<Leaderboard />} /> 
             <Route path="/study/:id" element={<Study />} />
             <Route path="/admin" element={<Admin />} />
-            
-            {/* Route for Games Page */}
             <Route path="/games" element={<Games />} />
-
+            
+            {/* NEW ROUTE */}
+            <Route path="/daily" element={<DailyChallenge />} />
           </Routes>
         </main>
       </div>
